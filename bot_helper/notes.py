@@ -17,7 +17,7 @@ class NoteBook(UserDict):
     def create_table(self):
 
         data = [
-        ['title', 'text', 'teg']
+        ['title', 'text', 'tegs']
     ]
 
         for note in self.data.values():
@@ -53,8 +53,10 @@ class Note:
     def add_text(self, text):
         self.text += text
 
-    def add_teg(self, teg):
-        self.tegs.append('#'+teg)
+    def add_tegs(self, tegs):
+        tegs = tegs.split(' ')
+        for teg in tegs:
+            self.tegs.append(teg)
         
 
     def __str__(self) -> str:

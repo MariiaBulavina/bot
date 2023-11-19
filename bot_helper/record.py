@@ -69,6 +69,27 @@ class Record:
     def add_email(self, email):
         self.emails.append(Email(email))        
 
+    def edit_email(self, old_email, new_email):
+
+        for em in self.emails:
+            if str(em.value) == old_email:
+                index = self.emails.index(em)
+                self.emails[index] = Email(new_email)
+                return f'{self.name.value}\'s email {old_email} has been changed to: {new_email}' 
+            
+        raise ValueError    
+    
+    def remove_email(self, email):
+
+        for em in self.emails:
+
+            if str(em.value) == email:
+                index = self.emails.index(em)
+                self.emails.pop(index)
+                return f'{self.name}\'s email {email} has been deleted'
+            
+        return f'Contact {self.name} does not have an email {email}'
+
 
     def __str__(self):
         return f"Contact name: {self.name.value},"\

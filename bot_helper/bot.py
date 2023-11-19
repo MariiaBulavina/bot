@@ -64,7 +64,7 @@ def add_phone(*args):
 
 
 @input_error
-def change(*args):
+def change_phone(*args):
     name = args[0]
     old_phone = args[1]
     new_phone = args[2]
@@ -146,7 +146,7 @@ def find_contact(*args):
     search_matches = []
 
     for contact in book.data.items():
-        changed_contact = str(contact).replace('Contact name:', '').replace('phones:', '').replace('birthday:', '')
+        changed_contact = str(contact).replace('Contact name:', '').replace('phones:', '').replace('birthday:', '').replace('address:', '').replace('emails:', '').replace('None', '')
         result = re.findall(data, str(changed_contact))
 
         if result:
@@ -162,6 +162,34 @@ def add_email(*args):
         email = args[1]
         book[name].add_email(email)
         return f'Email {email} has been added for contact {name}'
+    else:
+        return 'You have no contacts with this name'
+    
+
+@input_error
+def change_email(*args):
+    name = args[0]
+    old_email = args[1]
+    new_email = args[2]
+    record = book.get(name)
+
+    if record:
+        message = record.edit_email(old_email, new_email)
+        return message
+    else:
+        raise KeyError
+    
+
+@input_error
+def remove_email(*args):
+
+    name = args[0]
+    email = args[1]
+    record = book.get(name)
+
+    if record:
+        message = record.remove_email(email)
+        return message
     else:
         return 'You have no contacts with this name'
 
@@ -180,23 +208,34 @@ def add_address(*args):
     else:
         return 'You have no contacts with this name'
     
+@input_error
+def change_address(*args):
+    ...
+    
 
 @input_error
 def add_note(*args):
 
-    title = args[0]   
-    text = ' '.join(list(args[1:]))
+    title = input('Enter a title for your note: ')
+    text = input('Enter the text of your note: ')
+
 
     if title in notes:
-        question = input(f'Note with title {title} already exist. Do you want to add this text to an existing note? y/n')
-        if question == 'y':
+        exist_question = input(f'Note with title {title} already exist. Do you want to add this text to an existing note? y/n')
+        if exist_question == 'y':
             notes[title].add_text(text)
             return f'A text {text} has been added to the note with the title {title}]'
 
-        elif question == 'n':
+        elif exist_question == 'n':
             return 'Then you need to create a note with a different title' 
     else:
         notes[title] = Note(title, text)
+
+        teg_question = input('Do you want to add tegs? y/n ')
+        if teg_question == 'y':
+            tegs = input('Enter tags in the format: #teg #teg1: ')
+            notes[title].add_tegs(tegs)
+
         return f'Note {title}: {text} was created'
 
 @input_error
@@ -257,19 +296,28 @@ def help(*args):
 COMMANDS = {
     help: ['help'],
     hello: ['hello'],
-    add_contact: ['add_contact'],
-    add_phone: ['add_phone'],
-    change: ['change'],
-    phone: ['phone'],
-    show_all_contacts: ['show_all_contacts'],
     close: ['good_bye', 'close', 'exit', '.'],
-    delete_contact: ['delete_contact', 'delete'],
-    remove_phone: ['remove_phone', 'remove'],
+
+    add_contact: ['add_contact'],
+    show_all_contacts: ['show_all_contacts'],
+    delete_contact: ['delete_contact'],
+    find_contact: ['find'],
+
+    add_phone: ['add_phone'],
+    change_phone: ['change_phone'],
+    phone: ['phone'],
+    remove_phone: ['remove_phone'],
+
     add_birthday: ['add_birthday'],
     days_to_birthday: ['days_to_birthday'],
-    find_contact: ['find'],
+
     add_email: ['add_email'],
+    change_email: ['change_email'],
+    remove_email: ['remove_email'],
+
     add_address: ['add_address'],
+    change_address: ['change_address'],
+
     add_note: ['add_note'],
     show_all_notes: ['show_all_notes']
 }
