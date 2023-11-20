@@ -1,3 +1,4 @@
+
 import re
 
 from phone import PhoneError
@@ -154,6 +155,28 @@ def find_contact(*args):
     return search_matches
 
 @input_error
+def find_note(*args):
+
+    data = args[0]
+    search_matches = []
+
+    for note in notes.data.items():
+        result = re.findall(data, str(note))
+
+        if result:
+            search_matches.append(note)
+    return search_matches
+
+
+@input_error
+def delete_note(*args):
+    title = args[0]
+    message = notes.delete_note(title)
+    return message
+
+
+
+@input_error
 def add_email(*args):
 
     name = args[0]
@@ -209,9 +232,29 @@ def add_address(*args):
         return 'You have no contacts with this name'
     
 @input_error
-def change_address(*args):
-    ...
+def change_address_by_key(*args):
     
+    name = args[0]
+    key = args[1]
+    new_information = args[2]
+
+    record = book.get(name)
+
+    if record:
+        message = record.edit_address_by_key(key, new_information)
+        return message
+    else:
+        return 'You have no contacts with this name'
+
+
+@input_error
+def delete_address(*args):
+
+    name = args[0]
+
+    if name in book:
+        book[name].delete_address()
+
 
 @input_error
 def add_note(*args):
@@ -237,11 +280,34 @@ def add_note(*args):
             notes[title].add_tegs(tegs)
 
         return f'Note {title}: {text} was created'
+    
+
+@input_error
+def change_note(*args):
+    
+    title = args[0]
+    new_text = args[1]
+    notes[title].change_note(new_text)
+    return f'Note with title {title} has been changed'
+
+@input_error
+def change_teg(*args):
+    ...
+
+@input_error
+def change_title(*args):
+    ...    
 
 @input_error
 def show_all_notes(*args):
     table = notes.create_table()
     return table
+
+@input_error
+def show_contacts_table(*args):
+    table = book.create_table()
+    return table
+
 
 def close(*args):
     return 'Good bye!'
@@ -300,8 +366,9 @@ COMMANDS = {
 
     add_contact: ['add_contact'],
     show_all_contacts: ['show_all_contacts'],
+    show_contacts_table: ['show_contacts_table'],
     delete_contact: ['delete_contact'],
-    find_contact: ['find'],
+    find_contact: ['find_contact'],
 
     add_phone: ['add_phone'],
     change_phone: ['change_phone'],
@@ -316,10 +383,18 @@ COMMANDS = {
     remove_email: ['remove_email'],
 
     add_address: ['add_address'],
-    change_address: ['change_address'],
+    change_address_by_key: ['change_address_by_key'],
+    delete_address: ['delete_address'],
 
     add_note: ['add_note'],
-    show_all_notes: ['show_all_notes']
+    show_all_notes: ['show_all_notes'],
+    find_note: ['find_note'],
+    delete_note: ['delete_note'],
+    change_title: ['change_title'],
+    change_note: ['change_note'],
+    change_teg: ['change_teg']
+
+
 }
 
 

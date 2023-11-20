@@ -1,3 +1,4 @@
+import tabulate
 from collections import UserDict
 import pickle
 
@@ -38,4 +39,17 @@ class AddressBook(UserDict):
                     self.data = pickle.load(file)
             except FileNotFoundError:
                 pass    
-          
+    
+    def create_table(self):
+
+        data = [
+        ['name', 'phones', 'birthday', 'emails', 'address']
+    ]
+
+        for contact in self.data.values():
+            line = [contact.name, contact.phones, contact.birthday, contact.emails, contact.address]
+            data.append(line)
+        
+    
+        result = tabulate.tabulate(data)
+        return result

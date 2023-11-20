@@ -66,6 +66,26 @@ class Record:
         self.address = Address(address)
 
 
+    def edit_address_by_key(self, key, new_information):
+
+        if key == 'country':
+            self.address.country = new_information
+        elif key == 'city':
+            self.address.city = new_information    
+        elif key == 'street':
+            self.address.street = new_information    
+        elif key == 'house':
+            self.address.house = new_information    
+        elif key == 'apartment':
+            self.address.apartment = new_information
+
+        return f'{self.name.value}\'s {key} has been changed to {new_information}'
+
+    def delete_address(self):
+        self.address = None
+        return f'{self.name.value}\'s address has been deleted'
+
+
     def add_email(self, email):
         self.emails.append(Email(email))        
 

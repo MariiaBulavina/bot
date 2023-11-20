@@ -8,11 +8,15 @@ class NoteBook(UserDict):
     def add_note(self, note):
         self.data[self.title] = note
 
-    def find_note(self, title):
-        ...
 
-    def delete_note(self, note):
-        ...
+    def delete_note(self, title):
+        
+        try:
+            self.data.pop(title)
+        except KeyError:
+            return 'You have no notes with this title'
+        
+        return f'Note with the title {title} has been deleted'
 
     def create_table(self):
 
@@ -57,10 +61,14 @@ class Note:
         tegs = tegs.split(' ')
         for teg in tegs:
             self.tegs.append(teg)
+
+    def change_note(self, text):
+        self.text = text
+                
         
 
     def __str__(self) -> str:
-        return f'{self.title}: {self.text}'    
+        return f'{self.title}: {self.text} {self.tegs}'    
     
     def __repr__(self) -> str:
-        return f'{self.title}: {self.text}'  
+        return f'{self.title}: {self.text} {self.tegs}'  
