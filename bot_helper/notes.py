@@ -1,7 +1,7 @@
-import tabulate
-
 from collections import UserDict
 import pickle
+
+import tabulate
 
 
 class NoteBook(UserDict):
