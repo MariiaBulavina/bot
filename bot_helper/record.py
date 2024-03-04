@@ -1,13 +1,14 @@
 from datetime import datetime
 
-from name import Name
-from birthday import Birthday
-from phone import Phone
 from address import Address
+from birthday import Birthday
 from email_address import Email
+from name import Name
+from phone import Phone
 
 
 class Record:
+
     def __init__(self, name, phone=None):
         
         self.name = Name(name)
@@ -23,14 +24,12 @@ class Record:
 
         birthday = self.birthday.value
         today = datetime.now().date()
-
         current_year_birthday = birthday.replace(year=today.year)
 
         if current_year_birthday < today:
             current_year_birthday = current_year_birthday.replace(year=current_year_birthday.year+1)
 
         days_until_birthday = current_year_birthday - today
-
         return f'{days_until_birthday.days} days until {self.name}\'s birthday' # change for new bd func
 
     def add_phone(self, phone):
@@ -53,7 +52,7 @@ class Record:
             if str(p.value) == old_phone:
                 index = self.phones.index(p)
                 self.phones[index] = Phone(new_phone)
-                return f'Сontact number {self.name.value} {old_phone} has been changed to: {new_phone}' 
+                return f'Contact number {self.name.value} {old_phone} has been changed to: {new_phone}' 
             
         raise ValueError
 
@@ -64,7 +63,6 @@ class Record:
             
     def add_address(self, address):
         self.address = Address(address)
-
 
     def edit_address_by_key(self, key, new_information):
 
@@ -84,7 +82,6 @@ class Record:
     def delete_address(self):
         self.address = None
         return f'{self.name.value}\'s address has been deleted'
-
 
     def add_email(self, email):
         self.emails.append(Email(email))        
@@ -109,7 +106,6 @@ class Record:
                 return f'{self.name}\'s email {email} has been deleted'
             
         return f'Contact {self.name} does not have an email {email}'
-
 
     def __str__(self):
         return f"Contact name: {self.name.value},"\

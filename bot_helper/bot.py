@@ -1,16 +1,19 @@
 
 import re
 
-from phone import PhoneError
-from record import Record
 from addressbook import AddressBook
 from birthday import BirthdayError
 from notes import NoteBook, Note
+from phone import PhoneError
+from record import Record
+
 
 book = AddressBook()
 notes = NoteBook()
 
+
 def input_error(func):
+
     def inner(*args):
 
         try:
@@ -63,9 +66,9 @@ def add_phone(*args):
         return 'You have no contacts with this name'
 
 
-
 @input_error
 def change_phone(*args):
+    
     name = args[0]
     old_phone = args[1]
     new_phone = args[2]
@@ -80,6 +83,7 @@ def change_phone(*args):
 
 @input_error
 def phone(*args):
+
     name = args[0]
     record = book.get(name)
 
@@ -91,6 +95,7 @@ def phone(*args):
 
 @input_error
 def show_all_contacts(*args):
+
     page = int(args[0])
 
     for record in book.iterator(page):
@@ -101,6 +106,7 @@ def show_all_contacts(*args):
 
 @input_error
 def delete_contact(*args):
+
     name = args[0]
     message = book.delete(name)
     return message
@@ -108,6 +114,7 @@ def delete_contact(*args):
 
 @input_error
 def remove_phone(*args):
+
     name = args[0]
     phone = args[1]
     record = book.get(name)
@@ -131,8 +138,10 @@ def add_birthday(*args):
     else:
         return 'Enter a contact name to add a birthday'
 
+
 @input_error
 def days_to_birthday(*args):
+
     name = args[0]
     record = book.get(name)
 
@@ -141,8 +150,10 @@ def days_to_birthday(*args):
     except AttributeError:
         return f'There is no birthday entry in the contact with the name {name}'
 
+
 @input_error
 def find_contact(*args):
+
     data = args[0]
     search_matches = []
 
@@ -153,6 +164,7 @@ def find_contact(*args):
         if result:
             search_matches.append(contact)
     return search_matches
+
 
 @input_error
 def find_note(*args):
@@ -170,10 +182,10 @@ def find_note(*args):
 
 @input_error
 def delete_note(*args):
+
     title = args[0]
     message = notes.delete_note(title)
     return message
-
 
 
 @input_error
@@ -191,6 +203,7 @@ def add_email(*args):
 
 @input_error
 def change_email(*args):
+
     name = args[0]
     old_email = args[1]
     new_email = args[2]
@@ -231,6 +244,7 @@ def add_address(*args):
     else:
         return 'You have no contacts with this name'
     
+
 @input_error
 def change_address_by_key(*args):
     
@@ -262,9 +276,9 @@ def add_note(*args):
     title = input('Enter a title for your note: ')
     text = input('Enter the text of your note: ')
 
-
     if title in notes:
         exist_question = input(f'Note with title {title} already exist. Do you want to add this text to an existing note? y/n')
+
         if exist_question == 'y':
             notes[title].add_text(text)
             return f'A text {text} has been added to the note with the title {title}]'
@@ -273,11 +287,11 @@ def add_note(*args):
             return 'Then you need to create a note with a different title' 
     else:
         notes[title] = Note(title, text)
+        tag_question = input('Do you want to add tags? y/n ')
 
-        teg_question = input('Do you want to add tegs? y/n ')
-        if teg_question == 'y':
-            tegs = input('Enter tags in the format: #teg #teg1: ')
-            notes[title].add_tegs(tegs)
+        if tag_question == 'y':
+            tags = input('Enter tags in the format: #tag #tag1: ')
+            notes[title].add_tags(tags)
 
         return f'Note {title}: {text} was created'
     
@@ -290,18 +304,22 @@ def change_note(*args):
     notes[title].change_note(new_text)
     return f'Note with title {title} has been changed'
 
+
 @input_error
-def change_teg(*args):
+def change_tag(*args):
     ...
+
 
 @input_error
 def change_title(*args):
     ...    
 
+
 @input_error
 def show_all_notes(*args):
     table = notes.create_table()
     return table
+
 
 @input_error
 def show_contacts_table(*args):
@@ -392,7 +410,7 @@ COMMANDS = {
     delete_note: ['delete_note'],
     change_title: ['change_title'],
     change_note: ['change_note'],
-    change_teg: ['change_teg']
+    change_tag: ['change_tag']
 
 
 }

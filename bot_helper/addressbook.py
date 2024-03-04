@@ -1,6 +1,7 @@
-import tabulate
 from collections import UserDict
 import pickle
+import tabulate
+
 
 class AddressBook(UserDict):
 
@@ -50,6 +51,5 @@ class AddressBook(UserDict):
             line = [contact.name, contact.phones, contact.birthday, contact.emails, contact.address]
             data.append(line)
         
-    
         result = tabulate.tabulate(data)
         return result

@@ -1,5 +1,6 @@
 from field import Field
 
+
 class Address(Field):
 
     def __init__(self, address: list):
@@ -7,7 +8,6 @@ class Address(Field):
         self.value = address
         self.country, self.city, self.street, self.house, self.apartment = address
         
-
     @property
     def value(self) -> list:
         

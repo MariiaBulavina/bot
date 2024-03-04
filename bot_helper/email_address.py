@@ -1,6 +1,7 @@
-
 import re
+
 from field import Field
+
 
 class Email(Field):
     
@@ -14,8 +15,10 @@ class Email(Field):
 
     @value.setter
     def value(self, value: str):
+
         match = re.search(r"[A-Za-z]+[\w\.]+@\w+\.[a-zA-Z]{1,}[^\.-]", value)
         email_address = match.group() if match else "" 
+        
         if len(value) != len(email_address):
             raise ValueError("The address must contain exactly one @ symbol."\
                             "The address must include the characters A-Za-z0-9 before and after the @ symbol."\

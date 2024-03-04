@@ -1,15 +1,17 @@
 from datetime import datetime
 from field import Field
 
+
 class BirthdayError(Exception):
     pass
+
 
 class Birthday(Field):
     
     def __init__(self, value):
+
         self.__value = None
         self.value = value
-
         super().__init__(value)
         
     @property
